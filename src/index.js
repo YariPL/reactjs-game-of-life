@@ -4,9 +4,21 @@ import './index.css';
 
 class Grid extends React.Component {
 	render() {
+		const width = this.props.cols * 14;
+		let rowsArr = [];
+
+		let boxClass ='';
+		for(let i=0;i < this.props.rows; i++) {
+			for(let j=0; j < this.props.cols; i++) {
+				//create id for each box
+				let boxId = i + '_' + j;
+				boxClass = this.props.gridFull[i][j]
+			}
+		}
+
 		return(
-			<div>
-				Grid
+			<div className ='grid' style={{width:width}}>
+				{{rowsArr}}
 			</div>
 		)
 	}
@@ -30,8 +42,12 @@ class Main extends React.Component {
 			//should be always one top div(or other element)
 			<div>
 				<h1>The Game of Life</h1>
-				<Grid />
-				<h2>Generations:{this.state.generations}</h2>
+				<Grid 
+					gridFull = {this.state.gridFull}
+					row = {this.row}
+					cols = {this.cols}
+				/>
+				<h2>Generations:{this.state.gener ations}</h2>
 			</div>
 		);
 	}
