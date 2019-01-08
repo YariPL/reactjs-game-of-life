@@ -12,7 +12,18 @@ class Grid extends React.Component {
 			for(let j=0; j < this.props.cols; i++) {
 				//create id for each box
 				let boxId = i + '_' + j;
-				boxClass = this.props.gridFull[i][j]
+				//color or not the box element
+				boxClass = this.props.gridFull[i][j] ? 'box on' : 'box off';
+				rowsArr.push(
+					<Box 
+						boxClass={boxClass}
+						key={boxId}
+						boxId={boxId}
+						row={i}
+						col={j}
+						selectBox={this.props.selectBox}
+					/>
+				)
 			}
 		}
 
