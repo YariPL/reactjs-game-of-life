@@ -2,6 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+class Box extends React.Component {
+	//must be arrow function to refer to good this
+	selectBox = () => {
+		this.props.selectBox(this.props.row, this.props.col)
+	}
+ 
+	render() {
+		
+		return(
+			<div
+				className={this.props.boxClass}
+				id={this.props.id}
+				onClick={this.selectBox}
+			/>
+		);
+	}
+}
+
 class Grid extends React.Component {
 	render() {
 		const width = this.props.cols * 14;
@@ -9,7 +27,8 @@ class Grid extends React.Component {
 
 		let boxClass ='';
 		for(let i=0;i < this.props.rows; i++) {
-			for(let j=0; j < this.props.cols; i++) {
+			console.log(`row ${i}`);
+			for(let j=0; j < this.props.cols; j++) {
 				//create id for each box
 				let boxId = i + '_' + j;
 				//color or not the box element
@@ -23,15 +42,15 @@ class Grid extends React.Component {
 						col={j}
 						selectBox={this.props.selectBox}
 					/>
-				)
+				);
 			}
 		}
 
 		return(
-			<div className ='grid' style={{width:width}}>
-				{{rowsArr}}
+			<div className='grid' style={{width: width}}>
+				{rowsArr}
 			</div>
-		)
+		);
 	}
 }
 
@@ -42,7 +61,6 @@ class Main extends React.Component {
 		this.speed = 100;//speed of app
 		this.rows = 30;//rows
 		this.cols = 50;//columns
-
 		this.state = {
 			generations:0,
 			gridFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
@@ -57,8 +75,9 @@ class Main extends React.Component {
 					gridFull = {this.state.gridFull}
 					row = {this.row}
 					cols = {this.cols}
+					selectBox={this.selectBox}
 				/>
-				<h2>Generations:{this.state.gener ations}</h2>
+				<h2>Generations:{this.state.generations}</h2>
 			</div>
 		);
 	}
