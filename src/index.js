@@ -23,7 +23,7 @@ class Box extends React.Component {
 
 class Grid extends React.Component {
 	render() {
-		const width = (this.props.cols * 16);
+		const width = (this.props.cols * 14);
 		let rowsArr = [];
 					
 
@@ -57,7 +57,7 @@ class Grid extends React.Component {
 }
 class Buttons extends React.Component {
 	handleSelect = (evt) => {
-		this.props.gridSize (evt);
+		this.props.gridSize(evt);
 	}
 	render() {
 		return (
@@ -145,6 +145,40 @@ class Main extends React.Component {
 	pauseButton = () => {
 		clearInterval(this.intervalId);
 	}
+
+	slow = () => {
+		this.speed = 1000;
+		this.playButton();
+	}
+	fast = () => {
+		this.speed = 100;
+		this.playButton();
+	}
+
+	clear = () => {
+		var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
+		this.setState({
+			gridFull: grid,
+			generations: 0
+		})
+	}
+	gridSize = (size) => {
+		switch (size) {
+			case '1':
+				this.cols = 20;
+				this.rows = 10;
+			break;
+			case '2':
+				this.cols = 50;
+				this.rows = 30;
+			break;
+			default:
+				this.cols = 70;
+				this.rows = 50;
+		}
+		this.clear();
+	}
+
 
 	play = () => {
 		//make two copies of the current state
