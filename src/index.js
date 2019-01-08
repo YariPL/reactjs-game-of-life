@@ -22,14 +22,13 @@ class Box extends React.Component {
 
 class Grid extends React.Component {
 	render() {
-		const width = this.props.cols * 14;
+		const width = (this.props.cols * 16);
 		let rowsArr = [];
 					
 
 		let boxClass ='';
 
 		for(let i=0;i < this.props.rows; i++) {
-			
 			for(let j=0; j < this.props.cols; j++) {
 				//create id for each box
 				let boxId = i + '_' + j;
@@ -65,8 +64,35 @@ class Main extends React.Component {
 		this.cols = 50;//columns
 		this.state = {
 			generations:0,
+			//every box is false?
 			gridFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false))
 		}
+	}
+	//arrow function to get good this
+	selectBox = (row,col) => {
+		//best practice to copy array
+		let gridCopy = arrayClone(this.state.gridFull);
+		//onclick set value (of the clicked box to opposite);
+		gridCopy[row][col] = !gridCopy[row][col];
+		this.setState({
+			gridFull: gridCopy
+		})
+	}
+
+	seed = () => {
+		//best practice to copy array
+		let gridCopy = arrayClone(this.state.gridFull);
+		//loop threw all the boxes
+		for(let i=0;i < this.props.rows; i++) {
+			for(let j=0; j < this.props.cols; j++) {
+				if(Math.floor(Math.random() * 4 === 1)) {
+					gridCopy[i][j] = true;
+				};
+			}
+		}
+		this.setState({
+			gridFull: gridCopy
+		})
 	}
 	render() {
 		return(
@@ -85,4 +111,7 @@ class Main extends React.Component {
 	}
 }
 
+function arrayClone(arr) {
+	return JSON.parse(JSON.stringify(arr));
+}
 ReactDOM.render(<Main />, document.getElementById('root'));
