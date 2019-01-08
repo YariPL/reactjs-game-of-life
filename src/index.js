@@ -208,7 +208,7 @@ class Main extends React.Component {
 		}
 		this.setState({
 		  gridFull: g2,
-		  generation: this.state.generations + 1
+		  generations: this.state.generations + 1
 		});
 	}
 
