@@ -24,10 +24,12 @@ class Grid extends React.Component {
 	render() {
 		const width = this.props.cols * 14;
 		let rowsArr = [];
+					
 
 		let boxClass ='';
+
 		for(let i=0;i < this.props.rows; i++) {
-			console.log(`row ${i}`);
+			
 			for(let j=0; j < this.props.cols; j++) {
 				//create id for each box
 				let boxId = i + '_' + j;
@@ -73,7 +75,7 @@ class Main extends React.Component {
 				<h1>The Game of Life</h1>
 				<Grid 
 					gridFull = {this.state.gridFull}
-					row = {this.row}
+					rows = {this.rows}
 					cols = {this.cols}
 					selectBox={this.selectBox}
 				/>
