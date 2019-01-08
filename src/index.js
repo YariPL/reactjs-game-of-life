@@ -78,14 +78,14 @@ class Main extends React.Component {
 			gridFull: gridCopy
 		})
 	}
-
+	//seed the grid
 	seed = () => {
 		//best practice to copy array
 		let gridCopy = arrayClone(this.state.gridFull);
 		//loop threw all the boxes
-		for(let i=0;i < this.props.rows; i++) {
-			for(let j=0; j < this.props.cols; j++) {
-				if(Math.floor(Math.random() * 4 === 1)) {
+		for(let i=0;i < this.rows; i++) {
+			for(let j=0; j < this.cols; j++) {
+				if(Math.floor(Math.random() * 4) === 1) {
 					gridCopy[i][j] = true;
 				};
 			}
@@ -93,6 +93,48 @@ class Main extends React.Component {
 		this.setState({
 			gridFull: gridCopy
 		})
+	}
+
+
+	playButton = () => {
+		clearInterval(this.intervalId);
+		this.intervalId = setInterval(this.play, this.speed);
+	}
+
+	play = () => {
+		//make two copies of the current state
+		let g = this.state.gridFull;
+		let g2 = arrayClone(this.state.gridFull); 
+
+		//code representing the rules and terms of 
+		//loop threw all the boxes
+		for (let i = 0; i < this.rows; i++) {
+		  for (let j = 0; j < this.cols; j++) {
+
+		    let count = 0;
+		    //if there is a neibour count + 1
+		    //each cell(box) potentially an have 8 neibours( one if for each possibility)
+		    if (i > 0) if (g[i - 1][j]) count++;
+		    if (i > 0 && j > 0) if (g[i - 1][j - 1]) count++;
+		    if (i > 0 && j < this.cols - 1) if (g[i - 1][j + 1]) count++;
+		    if (j < this.cols - 1) if (g[i][j + 1]) count++;
+		    if (j > 0) if (g[i][j - 1]) count++;
+		    if (i < this.rows - 1) if (g[i + 1][j]) count++;
+		    if (i < this.rows - 1 && j > 0) if (g[i + 1][j - 1]) count++;
+		    if (i < this.rows - 1 && j < this.cols - 1) if (g[i + 1][j + 1]) count++;
+		    //decide to cell die or live
+		    if (g[i][j] && (count < 2 || count > 3)) g2[i][j] = false;
+		    if (!g[i][j] && count === 3) g2[i][j] = true;
+		  }
+		}
+		this.setState({
+		  gridFull: g2,
+		  generation: this.state.generation + 1
+		});
+	}
+
+	componentDidMount() {
+		this.seed();
 	}
 	render() {
 		return(
